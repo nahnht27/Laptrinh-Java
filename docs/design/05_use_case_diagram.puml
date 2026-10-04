@@ -1,0 +1,78 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor Visitor
+actor "Heritage Site Administrator" as Admin
+actor "iBeacon Device" as Beacon
+
+rectangle "Smart Heritage System" {
+
+  usecase "Register / Login" as UC_Login
+  usecase "Manage Profile & Language" as UC_Profile
+  usecase "View Heritage Map" as UC_Map
+  usecase "Detect Nearby Artifact" as UC_Detect
+  usecase "Process Beacon Signal" as UC_ProcessBeacon
+  usecase "Prevent Duplicate Notification" as UC_Duplicate
+  usecase "View Artifact Information" as UC_Artifact
+  usecase "View Multimedia Content" as UC_Media
+  usecase "Continue Viewing Artifact" as UC_Continue
+  usecase "Manage Favorites" as UC_Favorite
+  usecase "View Visit History" as UC_History
+  usecase "Rate Artifact / Submit Feedback" as UC_Feedback
+
+  usecase "Admin Login" as UC_AdminLogin
+  usecase "Manage Heritage Sites & Artifacts" as UC_Heritage
+  usecase "Manage Multimedia" as UC_AdminMedia
+  usecase "Manage Languages / Translations" as UC_Language
+  usecase "Manage iBeacon Devices" as UC_Beacon
+  usecase "Manage Beacon Deployment Location" as UC_BeaconLocation
+  usecase "Moderate Feedback" as UC_Moderate
+  usecase "View Analytics Dashboard" as UC_Dashboard
+  usecase "View Analytics Data" as UC_AnalyticsData
+  usecase "Export Reports" as UC_Export
+  usecase "Generate Statistical Report" as UC_Report
+
+  usecase "Record Visitor Interaction" as UC_Record
+  usecase "Synchronize Data" as UC_Sync
+  usecase "Deliver Language-specific Content" as UC_LangContent
+  usecase "Securely Store Data" as UC_Secure
+}
+
+Visitor --> UC_Login
+Visitor --> UC_Profile
+Visitor --> UC_Map
+Visitor --> UC_Detect
+Visitor --> UC_Artifact
+Visitor --> UC_Media
+Visitor --> UC_Continue
+Visitor --> UC_Favorite
+Visitor --> UC_History
+Visitor --> UC_Feedback
+
+Beacon --> UC_ProcessBeacon
+
+UC_Detect .> UC_ProcessBeacon : <<include>>
+UC_Detect .> UC_Duplicate : <<include>>
+UC_Artifact .> UC_LangContent : <<include>>
+UC_Artifact .> UC_Record : <<include>>
+
+Admin --> UC_AdminLogin
+Admin --> UC_Heritage
+Admin --> UC_AdminMedia
+Admin --> UC_Language
+Admin --> UC_Beacon
+Admin --> UC_BeaconLocation
+Admin --> UC_Moderate
+Admin --> UC_Dashboard
+Admin --> UC_Export
+
+UC_Dashboard .> UC_AnalyticsData : <<include>>
+UC_Export .> UC_Report : <<include>>
+
+UC_Record .> UC_Sync : <<include>>
+UC_LangContent .> UC_Secure : <<include>>
+UC_Heritage .> UC_Secure : <<include>>
+UC_AdminMedia .> UC_Secure : <<include>>
+UC_Beacon .> UC_Secure : <<include>>
+@enduml

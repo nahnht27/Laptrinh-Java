@@ -8,8 +8,23 @@ University project — Smart Heritage platform.
 ├── backend/     → Spring Boot API (Java 17, Maven)
 ├── frontend/    → React (npm, chạy local)
 ├── mobile/      → React Native (npm, chạy local)
+├── docs/        → Project documentation
+│   ├── requirements/
+│   └── design/
 └── docker-compose.yml
 ```
+
+## Documentation (M1 Sprint 1)
+
+### Requirements
+- [01 — Project Scope](docs/requirements/01_project_scope.md)
+- [02 — Functional Requirements](docs/requirements/02_functional_requirements.md)
+- [03 — Non-Functional Requirements](docs/requirements/03_non_functional_requirements.md)
+
+### Design
+- [04 — System Architecture](docs/design/04_system_architecture.md)
+- [05 — Use Case Diagram](docs/design/05_use_case_diagram.md)
+- [05 — Use Case Diagram (PlantUML)](docs/design/05_use_case_diagram.puml)
 
 ## Quick Start (Docker)
 
