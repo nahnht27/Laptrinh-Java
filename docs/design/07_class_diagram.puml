@@ -1,14 +1,10 @@
-@startuml
+@startuml ClassDiagram
+
 !theme plain
 skinparam classAttributeIconSize 0
+
 class Role {
     - roleId: Integer
-    - name: String
-}
-
-class Language {
-    - languageId: Integer
-    - code: String
     - name: String
 }
 
@@ -17,6 +13,12 @@ class User {
     - username: String
     - email: String
     - passwordHash: String
+}
+
+class Language {
+    - languageId: Integer
+    - code: String
+    - name: String
 }
 
 class HeritageSite {
@@ -82,31 +84,26 @@ class Feedback {
     - createdAt: LocalDateTime
 }
 
-Role "1" -- "0..*" User 
+Role "1" -- "0..*" User
+User "0..*" -- "0..1" Language
 
-Language "1" -- "0..*" User 
-
-HeritageSite "1" -- "1..*" Artifact 
-
-Artifact "1" -- "0..*" Multimedia 
-
-Artifact "1" -- "0..*" ArtifactTranslation 
+HeritageSite "1" -- "0..*" Artifact
+Artifact "1" -- "0..*" Multimedia
+Artifact "1" -- "0..*" ArtifactTranslation
 Language "1" -- "0..*" ArtifactTranslation
 
-HeritageSite "1" -- "1..*" BeaconDeploymentLocation 
+HeritageSite "1" -- "0..*" BeaconDeploymentLocation
+BeaconDeploymentLocation "1" -- "0..*" iBeacon
+Artifact "0..1" -- "0..*" iBeacon
 
-BeaconDeploymentLocation "1" -- "1..*" iBeacon 
+User "1" -- "0..*" Favorite
+Artifact "1" -- "0..*" Favorite
 
-Artifact "0..1" -- "0..*" iBeacon 
+User "1" -- "0..*" VisitorInteraction
+Artifact "1" -- "0..*" VisitorInteraction
+iBeacon "0..1" -- "0..*" VisitorInteraction
 
-User "1" -- "0..*" Favorite 
-Artifact "1" -- "0..*" Favorite 
-
-User "1" -- "0..*" VisitorInteraction 
-Artifact "1" -- "0..*" VisitorInteraction 
-
-iBeacon "0..1" -- "0..*" VisitorInteraction 
-
-User "1" -- "0..*" Feedback 
+User "1" -- "0..*" Feedback
 Artifact "1" -- "0..*" Feedback
+
 @enduml
