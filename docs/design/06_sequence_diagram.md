@@ -1,85 +1,69 @@
-## 6. Sequence Diagram
+# 08. Sequence Diagram
 
-### 1. Main Participants
-- **Visitor**: user of the Smart Heritage mobile application
-- **Mobile App**: mobile application used to access heritage information
-- **Backend API**: REST API that provides heritage data
-- **HeritageSite**: heritage site data managed by the backend
-- **Artifact**: historical artifact data
-- **Multimedia**: multimedia resources associated with an artifact
-- **iBeacon**: BLE device used to detect the visitor's proximity to an artifact or deployment location
+## 1. Scope
 
-### 2. Main Sequence Flows
+The sequence diagrams cover the following core Visitor interactions:
 
-#### 2.1 Heritage Site Information Flow
-The Visitor requests heritage site information through the Mobile App.
-1. Visitor opens the heritage map or requests heritage site information.
-2. Mobile App sends a request to the Backend API.
-3. Backend API retrieves the requested **HeritageSite** data.
-4. Backend API returns the heritage site information.
-5. Mobile App displays the information to the Visitor.
+- Heritage Site information retrieval
+- iBeacon-based Artifact information retrieval
+- Artifact Multimedia retrieval
 
-#### 2.2 Artifact Information Flow
-The Artifact flow represents the main interaction after the Mobile App detects a nearby iBeacon.
-1. iBeacon broadcasts a BLE signal from its deployment location.
-2. Mobile App detects the iBeacon signal.
-3. Mobile App sends the beacon information to the Backend API.
-4. Backend API resolves the related deployment location and **Artifact**.
-5. Backend API retrieves the corresponding **Artifact** data.
-6. Backend API returns the artifact information.
-7. Mobile App displays the artifact information to the Visitor.
-8. The interaction may be recorded for visit history and analytics.
+The diagrams focus on the interaction between the Visitor Mobile Application, Backend REST API, PostgreSQL database, and iBeacon infrastructure.
 
-#### 2.3 Multimedia Information Flow
-The Visitor requests multimedia content for an artifact.
-1. Mobile App sends a request for multimedia resources of an **Artifact**.
-2. Backend API retrieves the associated **Multimedia** resources.
-3. Backend API returns the available multimedia information.
-4. Mobile App displays the multimedia content to the Visitor.
+## 2. Participants
 
-### 3. Draft API
-The following REST API endpoints are proposed for the Heritage Site, Artifact, and Multimedia data required in M2 Sprint 1.
+| Participant | Responsibility |
+|---|---|
+| **Visitor** | Uses the mobile application to explore heritage content |
+| **Mobile App** | Provides the interface for viewing heritage sites, artifacts, and multimedia content |
+| **Backend API** | Provides REST API services and processes requests from the mobile application |
+| **PostgreSQL** | Stores heritage site, artifact, multimedia, beacon, and visitor interaction data |
+| **iBeacon** | Emits BLE signals detected by the visitor's mobile device |
 
-#### 3.1 Heritage Site API
-- GET /api/heritage-sites — Retrieve all heritage sites.
-- GET /api/heritage-sites/{siteId} — Retrieve a specific heritage site by ID.
+## 3. Sequence Flows
 
-Example response:
+### 3.1 Heritage Site Information
+The Visitor requests heritage site information through the Mobile App. The Mobile App sends a request to the Backend API. The Backend API retrieves the corresponding `HeritageSite` data from PostgreSQL and returns the result to the Mobile App.
 
-{
-  "siteId": 1,
-  "name": "Heritage Site Name",
-  "description": "Description of the heritage site",
-  "address": "Heritage site address",
-  "latitude": 10.762622,
-  "longitude": 106.660172
-}
+**Sequence diagram:** `06_sequence_heritage_site.puml`
 
-#### 3.2 Artifact API
-- GET /api/heritage-sites/{siteId}/artifacts — Retrieve artifacts belonging to a specific heritage site.
-- GET /api/artifacts/{artifactId} — Retrieve a specific artifact by ID.
+### 3.2 iBeacon-Based Artifact Information
+The iBeacon emits a BLE signal that is detected by the Mobile App. The Mobile App sends the detected beacon information to the Backend API. The Backend API resolves the beacon and its deployment information, retrieves the assigned `Artifact` data from PostgreSQL, and returns the artifact information to the Mobile App. The visitor interaction is recorded in PostgreSQL for visit history and analytics.
 
-Example response:
+**Sequence diagram:** `06_sequence_artifact.puml`
 
-{
-  "artifactId": 1,
-  "name": "Artifact Name",
-  "description": "Description of the artifact"
-}
+### 3.3 Multimedia Information
+The Visitor requests multimedia resources for an artifact through the Mobile App. The Mobile App sends the request to the Backend API. The Backend API retrieves the associated `Multimedia` resources from PostgreSQL and returns the result to the Mobile App.
 
-#### 3.3 Multimedia API
-- GET /api/artifacts/{artifactId}/multimedia — Retrieve multimedia resources associated with a specific artifact.
+**Sequence diagram:** `06_sequence_multimedia.puml`
 
-Example response:
+## 4. Draft API
 
-{
-  "multimediaId": 1,
-  "type": "image",
-  "title": "Artifact Image",
-  "url": "https://example.com/media/artifact-1.jpg"
-}
+### 4.1 Heritage Site API
 
-## 4. Sequence Diagram source 
-- `08_sequence_heritage_site.puml` — Heritage Site information flow
-- `08_sequence_artifact.puml` — iBeacon-based Artifact information flow
-- `08_sequence_multimedia.puml` — Multimedia information flow
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/heritage-sites` | Retrieve all heritage sites |
+| `GET` | `/api/heritage-sites/{siteId}` | Retrieve a heritage site by ID |
+
+### 4.2 Artifact API
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/heritage-sites/{siteId}/artifacts` | Retrieve artifacts of a heritage site |
+| `GET` | `/api/artifacts/{artifactId}` | Retrieve an artifact by ID |
+
+### 4.3 Multimedia API
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/artifacts/{artifactId}/multimedia` | Retrieve multimedia resources of an artifact |
+
+## 5. Source Files
+
+| File | Description |
+|---|---|
+| `06_sequence_heritage_site.puml` | Heritage Site information retrieval sequence |
+| `06_sequence_artifact.puml` | iBeacon-based Artifact information retrieval sequence |
+| `06_sequence_multimedia.puml` | Artifact Multimedia retrieval sequence |
+
